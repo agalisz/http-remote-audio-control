@@ -11,6 +11,6 @@ Usage:
 -p, --port (Default: 8080) Port
 
 e.g.:
-RemoteAudioController.exe -p 8090
+RemoteAudioController.exe -p 8080
 
 ![Example](example.PNG)
