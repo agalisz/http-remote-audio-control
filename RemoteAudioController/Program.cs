@@ -1,7 +1,6 @@
 ﻿using CommandLine;
 using log4net;
-using Nancy.Hosting.Self;
-using RemoteAudioController.Nancy;
+using Microsoft.Owin.Hosting;
 using System;
 
 namespace RemoteAudioController
@@ -20,27 +19,21 @@ namespace RemoteAudioController
 
         static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args)
+            Parser.Default
+                .ParseArguments<Options>(args)
                 .WithParsed<Options>(o =>
                 {
                     try
                     {
-                        Logger.Info($"Starting Nancy server localhost:{o.Port}...");
-                        NancyHost host = new NancyHost(
-                            new NancyBootstrapper(),
-                            new HostConfiguration
-                            {
-                                RewriteLocalhost = true
-                            },
-                            new Uri($"http://localhost:{o.Port}"));
-                        host.Start();
-                        Logger.Info($"Server started. Press any key to stop it.");
-
-                        Console.ReadKey();
-
-                        Logger.Info($"Stopping the server...");
-                        host.Stop();
-                        Logger.Info($"Server stopped.");
+                        string url = $"http://+:{o.Port}";
+                        Logger.Info($"Starting server: {url}...");                                            
+                        using (WebApp.Start(url))
+                        {
+                            Logger.Info($"Server started. Press enter to stop it.");
+                            Console.ReadLine();
+                            Logger.Info($"Stopping the server...");
+                            Logger.Info($"Server stopped.");
+                        }
                     }
                     catch (Exception e)
                     {
