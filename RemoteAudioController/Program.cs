@@ -25,10 +25,8 @@ namespace RemoteAudioController
                 {
                     try
                     {
-                    //http://*:10281/
-                        Logger.Info($"Starting server localhost:{o.Port}...");
-
                         string url = $"http://+:{o.Port}";
+                        Logger.Info($"Starting server: {url}...");                                            
                         using (WebApp.Start(url))
                         {
                             Logger.Info($"Server started. Press enter to stop it.");
